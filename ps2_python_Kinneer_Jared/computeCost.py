@@ -17,6 +17,9 @@ def computeCost(x, y, theta):
 #x array [x0, x1]
 x = np.array([[1,0],[1,2],[1,3],[1,4]])
 y = np.array([4,8,10,12])
-theta = np.array([1, 1])
-cost = computeCost(x, y, theta)
+theta1 = np.array([0, .5])
+cost = computeCost(x, y, theta1)
 print(cost)
+theta2 = np.array([1, 1])
+cost2 = computeCost(x, y, theta2)
+print(cost2)
