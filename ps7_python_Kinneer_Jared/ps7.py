@@ -2,6 +2,9 @@ import numpy as np
 import scipy
 from predict import predict
 from nnCost import nnCost
+from sigmoidGradient import sigmoidGradient
+from sGD import sGD
+
 #0
 data = scipy.io.loadmat("./input/HW7_Data.mat")
 
@@ -32,10 +35,17 @@ for i in range(p.shape[0]):
         count += 1
         
 accuracy = count/p.shape[0]
-print("accuracy = ", accuracy)
+print("accuracy = ", accuracy,"\n")
 
-#2a
+#2a,b
 lambdas = [0,1,2]
 for lambda_ in lambdas:
     cost = nnCost(THETA_1, THETA_2, X, y, 3, lambda_)
     print("the cost for lambda (", lambda_,") is ", cost)
+    
+#3
+test_z = np.array([-10,0,10])
+print("\ntest of sigmoid gradient with z = [-10,0,10]\ng'(z)=",sigmoidGradient(test_z))
+
+#4
+theta_1, theta_2 = sGD(4, 8, 3, X, y, .1, .1, 1)
