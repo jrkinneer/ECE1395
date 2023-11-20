@@ -48,4 +48,84 @@ test_z = np.array([-10,0,10])
 print("\ntest of sigmoid gradient with z = [-10,0,10]\ng'(z)=",sigmoidGradient(test_z))
 
 #4
-theta_1, theta_2 = sGD(4, 8, 3, X, y, .1, .1, 1)
+alpha = .1
+# X_train = np.zeros_like(X)
+# y_train = np.zeros_like(y)
+# X_test = np.zeros_like(X)
+# y_test = np.zeros_like(y)
+# counter = 0
+# counter_test = 0
+# for i in range(X.shape[0]):
+#     r = np.random.rand()
+#     if r < .85:
+#         X_train[counter] = X[i]
+#         y_train[counter] = y[i]
+#         counter+=1
+#     else:
+#         X_test[counter_test] = X[i]
+#         y_test[counter_test] = y[i]
+#         counter_test += 1 
+        
+# X_train = np.resize(X_train, (counter, X_train.shape[1]))
+# y_train = np.resize(y_train, (counter, y_train.shape[1]))
+
+# THETA_1_trained, THETA_2_trained = sGD(4, 8, 3, X_train, y_train, .01, alpha, 3)
+#5
+
+Epochs = [50, 100]
+lambdas = [0,.01,.1,1]
+
+for epoch in Epochs:
+    for lambda_x in lambdas:
+        #randomize testing and training data
+        X_train = np.zeros_like(X)
+        y_train = np.zeros_like(y)
+        X_test = np.zeros_like(X)
+        y_test = np.zeros_like(y)
+        counter = 0
+        counter_test = 0
+        for i in range(X.shape[0]):
+            r = np.random.rand()
+            if r < .85:
+                X_train[counter] = X[i]
+                y_train[counter] = y[i]
+                counter+=1
+            else:
+                X_test[counter_test] = X[i]
+                y_test[counter_test] = y[i]
+                counter_test += 1 
+                
+        X_train = np.resize(X_train, (counter, X_train.shape[1]))
+        y_train = np.resize(y_train, (counter, y_train.shape[1]))
+        X_test = np.resize(X_test, (counter_test, X.shape[1]))
+        y_test = np.resize(y_test, (counter_test, y.shape[1]))
+        
+        #use training data to create theta's
+        THETA_1_trained, THETA_2_trained = sGD(4,8,3,X_train, y_train, lambda_x, alpha, epoch)
+        
+        #use theta's to predict output
+        p_train, h_x_train = predict(THETA_1_trained, THETA_2_trained, X_train)
+        p_test, h_x_test = predict(THETA_1_trained, THETA_2_trained, X_test)
+        
+        #get accuracy for training and testing data
+        train_accuracy = 0
+        test_accuracy = 0
+        
+        for i in range(p_train.shape[0]):
+            if p_train[i][0] == y_train[i][0]:
+                train_accuracy += 1
+                
+        for i in range(p_test.shape[0]):
+            if p_test[i][0] == y_test[i][0]:
+                test_accuracy += 1
+                
+        train_accuracy /= p_train.shape[0]
+        test_accuracy /= p_test.shape[0]
+        
+        train_cost = nnCost(THETA_1_trained, THETA_2_trained, X_train, y_train, 3, lambda_x)
+        test_cost = nnCost(THETA_1_trained, THETA_2_trained, X_test, y_test, 3, lambda_x)
+        
+        print("for MaxEpochs = ", epoch, " lambda = ", lambda_x, " alpha = ", alpha, " training data accuracy = ", train_accuracy * 100, "%", " cost = ", train_cost)
+        print("for MaxEpochs = ", epoch, " lambda = ", lambda_x, " alpha = ", alpha, " testing data accuracy = ", test_accuracy * 100, "%", " cost = ", test_cost)
+        print("\n")
+        
