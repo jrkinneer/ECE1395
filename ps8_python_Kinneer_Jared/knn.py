@@ -25,7 +25,7 @@ def knn():
         
         classification_error = 1 - accuracy_score(y_temp, y_pred)
         
-        print("classification error for ", bag_x, " = ", classification_error)
+        # print("classification error for ", bag_x, " = ", classification_error)
         
         error_list.append(classification_error)
         
