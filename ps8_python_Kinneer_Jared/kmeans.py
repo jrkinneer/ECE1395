@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.spatial.distance import cdist
+from tqdm import tqdm
 
 def kmeans_single(X, K, iters):
     ids = np.zeros((X.shape[0], 1), dtype='uint8')
@@ -12,7 +13,7 @@ def kmeans_single(X, K, iters):
             means[k][n] = np.random.uniform(np.min(X[:, n]), np.max(X[:,n]))
            
     #runs kmeans for i iterations 
-    for i in range(iters):
+    for i in tqdm(range(iters), "i in iters, kmeans_single", leave=False):
         for m in range(X.shape[0]):
             #find the ids of the m datapoints
             distances_to_each_mean = cdist([X[m]], means, 'euclidean')
