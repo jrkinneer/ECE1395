@@ -18,7 +18,6 @@ for i in range(25):
     # cv2.imshow("img", img)
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
-    
     row = i//5
     col = i%5
     
@@ -30,7 +29,8 @@ for i in range(25):
 # cv2.imshow("numbers", number_img)
 # cv2.waitKey(0)
 # cv2.destroyAllWindows()
-# cv2.imwrite("./output/ps8-1-a-1.png", number_img)
+number_img = cv2.normalize(number_img, None, 0, 255, cv2.NORM_MINMAX)
+cv2.imwrite("./output/ps8-1-a-1.png", number_img.astype('uint8'))
 
 # #1b
 # y = np.array(mat['y'])
